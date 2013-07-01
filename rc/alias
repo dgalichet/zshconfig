@@ -1,0 +1,4 @@
+alias l='ls -G'
+alias ll='ls -a -l -G'
+alias df='df -h'
+alias du='du -h'

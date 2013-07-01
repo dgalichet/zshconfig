@@ -1,0 +1,38 @@
+autoload -U colors
+colors
+
+host_color="green"
+path_color="blue"
+date_color="red"
+
+date_format="%H:%M"
+
+# Autoload zsh functions.
+fpath=(~/.zsh/functions $fpath)
+autoload -U ~/.zsh/functions/*(:t)
+
+# Enable auto-execution of functions.
+typeset -ga preexec_functions
+typeset -ga precmd_functions
+typeset -ga chpwd_functions
+
+# Append git functions needed for prompt.
+preexec_functions+='preexec_update_git_vars'
+precmd_functions+='precmd_update_git_vars'
+chpwd_functions+='chpwd_update_git_vars'
+
+# Allow for functions in the prompt.
+setopt PROMPT_SUBST
+
+date="%{$fg[$date_color]%}%D{$date_format}"
+host="%{$fg[$host_color]%}[%n]"
+#cpath="%B%{$fg[$path_color]%}%/%b"
+cpath="%{$fg[$path_color]%}%1/%b"
+#cpath="%1~"
+end="%{$reset_color%}"
+#PS1="$host$cpath$end %# "
+##PS1="$cpath$end %# "
+#RPS1="$date$end"
+
+#PROMPT=$'%{${fg[cyan]}%}%B%~%b$(prompt_git_info)%{${fg[default]}%} '
+PROMPT=$'$host$cpath$end$(prompt_git_info)%{${fg[default]}%} %# '
